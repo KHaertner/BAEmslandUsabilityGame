@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FH-Osna-Usability</title>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<script src="jquery.js"></script>
+	<script src="timer.js"></script>
+	<script type="text/javascript">
+		var number = 0;									//Anzahl der gespawnten Hindernisse
+		var width = 500;								//Breite der Frame, ist leider noch z.T. hardcoded
+		var height = 250;								//Höhe der Frame, ist leider noch z.T. hardcoded
+		var state = "menu";								//Startwert des Fensters (menu/play)
+		var maxTime = 10000;							//Maxwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
+		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
+		var intervall = 200;							//Nach 200 ms wird ein neues Hindernis gespawnt
+		var hardness = "slow";
+
+		$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
+		    switch(e.which) {
+		        case 37: 								// left
+		        alert("links");
+
+		        case 38: 								// up
+		        break;
+
+		        case 39: 								// right
+		        break;
+
+		        case 40: 								// down
+		        break;
+
+		        default: return; 						// exit this handler for other keys
+		    }
+		    e.preventDefault();
+		}); 											//Ende Keyeingabe
+
+		function timer(){
+			gameinterval = window.setInterval(function(){
+			  	inGame();
+			}, intervall);								//setzt die Zeit der neuberechnung, in diesem Fall wird die Spawnmethode nach "intervall" ms aufgerufen
+		}
+
+		function inGame(){ 								//bewegt und spawnt die Hindernisse
+			number++;
+			createBox(number); 							//spawn
+			moveBox(number);							//bewegung
+
+			if (maxTime > 2000) {maxTime = maxTime-12;}; //Die Geschwindigkeit der Hindernisse wird erhöht
+			if (minTime > 1000) {minTime = minTime-6;};
+
+														//Der Schwierigkeitsgrad erhöht sich, Hindernisse spawnen häufiger
+			if (number > 250 && hardness == "slow") { 	//Erhöhung nach 250 Hindernissen
+				clearInterval(gameinterval);
+				hardness = "medium";
+				intervall = 100;
+				timer();								//Timer wird neu gestartet, damit das neue Intervall gültig ist
+			};
+			if (number > 500 && hardness == "medium") {
+				clearInterval(gameinterval);			//Erhöhung nach 250 Hindernissen
+				hardness = "hard";
+				intervall = 50;
+				timer();								//Timer wird neu gestartet, damit das neue Intervall gültig ist
+			};
+
+														//Daten werden angezeigt (unter den Spielfeld)
+			$('#points').val(number);
+			$('#intervall').val(intervall);
+			$('#max').val(maxTime);
+			$('#min').val(minTime);
+		}
+
+		function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
+			state = gameState;
+			if (state == "play") {
+				$('#game').stop();
+				$('#game').animate({'background-position':'0px'},1);
+				$('#cursor').css({'display': 'block'});
+				$('.menu').css({'display': 'none'});
+				var bgAnimate = $('#game').animate({'background-position':'-=1000px'},1*60*1000, 'linear');
+				timer();
+			}else if(state == "menu"){
+				clearInterval(gameinterval);
+				$('#cursor').css({'display': 'none'});
+				$('.menu').css({'display': 'block'});
+				
+			};
+		}
+
+    	function lose(points){							//Anzeige und reset der Stats
+			$('.box').remove();
+			number = 0;
+			maxTime = 10000;
+			minTime = 5000;
+			intervall = 200;
+			hardness = "slow";
+			setState('menu');
+			$('#your_points').remove();					//Container mit alten Stats wird gelöscht
+			$('.menu').append("<div id='your_points'>Game Over Erreichte Punkte: "+points+"</div>");
+														//neuer Container wird angefügt
+		}
+		function createBox(id){							//Hindernis berechnen und als container anzeigen
+			var y = Math.floor(Math.random() * height);	//Zufallszahl der Spawnhöhe
+			box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; background: url(./images/comet.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+")'></div>");
+			$(document.body).append(box);
+			
+		}
+
+		function moveBox(id){							//Geschwindigkeit des Hindernis zufällig erzeugen
+			var speed = Math.floor(Math.random() * (maxTime-minTime))+minTime;
+			var left = width+100;
+			$("#box"+id).animate({'left' : "-="+left+"px"}, speed, 'linear'); //Bewegung erzeugen
+		}
+
+		$(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
+			$('body').mousemove(function(e) { 			//Achte auf Mausbewegung
+				var offset = $(this).offset();			//Berechnung der Mauskoordinaten
+				var new_x = (e.clientX - offset.left);
+				var new_y = (e.clientY - offset.top);
+				$('#cursor').css({'top': new_y, 'left' : new_x}); //Bild (Rakete) bewegen
+				$('#x').val(new_x);						//Ausgabe der x,y Koordinaten under der Frame
+				$('#y').val(new_y);
+				
+				/*if ((new_x) < 0 || (new_x) > width || (new_y) < 0 || (new_y) > height) {
+					lose();								//Wenn die Maus die Frame verlässt
+				};*/
+				
+
+				if (number >= 100) {
+					$('#box'+(number-100)).remove();	//Es werden maximal 100 Hindernisse erstellt, frühere werden gelöscht.
+				};			
+			});
+		});
+
+	</script>
+</head>
+<body>
+	<!-- Frame -->
+	<div id="game">
+
+		<!-- menüoberfläche -->
+		<div class="menu">
+			<button onclick="setState('play');">Start</button>
+		</div>
+	</div>
+
+	<!-- Statistiken -->
+	<div class="stats">
+						<input type='text' id='x' style="width:30px"> :
+						<input type='text' id='y' style="width:30px">
+		Hinternisse: 	<input type='text' id="points" style="width:30px">
+		Intervall: 		<input type='text' id="intervall" style="width:30px">
+		Max: 			<input type='text' id="max" style="width:30px">
+		Min: 			<input type='text' id="min" style="width:30px">
+	</div>
+
+	<!-- Aussehen des Cursers/Avatar -->
+	<div id="cursor"></div>
+</body>
+</html>

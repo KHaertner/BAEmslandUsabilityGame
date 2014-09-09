@@ -1,0 +1,33 @@
+body{
+	background: white;
+}
+#game{
+	border: solid 1px;
+	height: 250px;
+	width: 500px;
+	#cursor:url(http://www.seancannon.com/_test/sniper-scope.cur),default;
+	background: url(../images/stars.jpg);
+}
+.menu{
+		border: solid 1px;
+		width: 200px;
+		height: 100px;
+		margin: auto;
+		margin-top: 50px;
+}
+.box{
+		#in index.html zu finden
+}
+#cursor{
+	width: 45px;
+	height: 22px;
+	background: url(../images/rocket.png);
+	background-size: 100%;
+	background-position: -5px -4px;
+	display:none;
+	position:fixed;
+	cursor:none;
+}
+.stats{
+
+}
