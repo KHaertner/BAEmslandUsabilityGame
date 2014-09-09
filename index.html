@@ -99,7 +99,9 @@
 														//neuer Container wird angefügt
 		}
 		function createBox(id){							//Hindernis berechnen und als container anzeigen
-			var y = Math.floor(Math.random() * height);	//Zufallszahl der Spawnhöhe
+			var y = Math.floor(Math.random() * height-20);	//Zufallszahl der Spawnhöhe
+			if (y<10) {y=10;};
+			if (y-height>height-10) {y=height-10;};
 			box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; background: url(./images/comet.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+")'></div>");
 			$(document.body).append(box);
 			
