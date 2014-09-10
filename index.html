@@ -45,7 +45,8 @@
 		function inGame(){ 								//bewegt und spawnt die Hindernisse
 			number++;
 			if (energyMode == true && energyLeft < 1) {
-				$('#cursor').css({'background':'url(./images/rocket.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				$('#game').css({'cursor':'url(./images/rocket.cur), default'});
+				energyMode = false;
 				energyMode = false;
 			};
 
