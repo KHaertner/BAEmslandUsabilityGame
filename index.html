@@ -14,6 +14,8 @@
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var intervall = 200;							//Nach 200 ms wird ein neues Hindernis gespawnt
 		var hardness = "slow";
+		var energyMode = false;							//Energymodus ist aus zu Beginn
+		var energyLeft = 100;							//Anfangsenergie
 
 		$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
 		    switch(e.which) {
@@ -42,6 +44,14 @@
 
 		function inGame(){ 								//bewegt und spawnt die Hindernisse
 			number++;
+			if (energyMode == true && energyLeft < 1) {
+				$('#cursor').css({'background':'url(./images/rocket.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				energyMode = false;
+			};
+
+			if (energyMode == true) {
+				energyLeft -= 1;
+			};
 			createBox(number); 							//spawn
 			moveBox(number);							//bewegung
 
@@ -67,6 +77,8 @@
 			$('#intervall').val(intervall);
 			$('#max').val(maxTime);
 			$('#min').val(minTime);
+			$('#energy').val(energyLeft);
+
 		}
 
 		function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
@@ -87,22 +99,30 @@
 		}
 
     	function lose(points){							//Anzeige und reset der Stats
-			$('.box').remove();
-			number = 0;
-			maxTime = 10000;
-			minTime = 5000;
-			intervall = 200;
-			hardness = "slow";
-			setState('menu');
-			$('#your_points').remove();					//Container mit alten Stats wird gelöscht
-			$('.menu').append("<div id='your_points'>Game Over Erreichte Punkte: "+points+"</div>");
-														//neuer Container wird angefügt
+			
+			if (energyMode==false) {
+
+				$('.box').remove();
+				number = 0;
+				maxTime = 10000;
+				minTime = 5000;
+				intervall = 200;
+				energyMode = false;
+				energyLeft = 100;
+				hardness = "slow";
+				setState('menu');
+				$('#your_points').remove();					//Container mit alten Stats wird gelöscht
+				$('.menu').append("<div id='your_points'>Game Over Erreichte Punkte: "+points+"</div>");
+															//neuer Container wird angefügt
+			}else{
+				$('#box'+points).remove();
+			};
 		}
 		function createBox(id){							//Hindernis berechnen und als container anzeigen
 			var y = Math.floor(Math.random() * height-20);	//Zufallszahl der Spawnhöhe
 			if (y<10) {y=10;};
 			if (y-height>height-10) {y=height-10;};
-			box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; background: url(./images/comet.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+")'></div>");
+			box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/comet.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+")'></div>");
 			$(document.body).append(box);
 			
 		}
@@ -113,12 +133,23 @@
 			$("#box"+id).animate({'left' : "-="+left+"px"}, speed, 'linear'); //Bewegung erzeugen
 		}
 
+		function energy(){
+			if (energyMode == false) {
+				$('#cursor').css({'background':'url(./images/rocketenergy.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				energyMode = true;
+			}else{
+				$('#cursor').css({'background':'url(./images/rocket.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				energyMode = false;
+			};
+
+		}
+
 		$(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
 			$('body').mousemove(function(e) { 			//Achte auf Mausbewegung
 				var offset = $(this).offset();			//Berechnung der Mauskoordinaten
 				var new_x = (e.clientX - offset.left);
 				var new_y = (e.clientY - offset.top);
-				$('#cursor').css({'top': new_y, 'left' : new_x}); //Bild (Rakete) bewegen
+				$('#cursor').css({'top': new_y-5, 'left' : new_x-20}); //Bild (Rakete) bewegen
 				$('#x').val(new_x);						//Ausgabe der x,y Koordinaten under der Frame
 				$('#y').val(new_y);
 				
@@ -147,6 +178,7 @@
 
 	<!-- Statistiken -->
 	<div class="stats">
+		Energy:			<input type='text' id='energy' style="width:30px">
 						<input type='text' id='x' style="width:30px"> :
 						<input type='text' id='y' style="width:30px">
 		Hinternisse: 	<input type='text' id="points" style="width:30px">
@@ -156,6 +188,6 @@
 	</div>
 
 	<!-- Aussehen des Cursers/Avatar -->
-	<div id="cursor"></div>
+	<div id="cursor" onclick="energy();"></div>
 </body>
 </html>
