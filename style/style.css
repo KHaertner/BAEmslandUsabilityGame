@@ -6,7 +6,7 @@ body{
 	height: 250px;
 	width: 500px;
 	#cursor:url(http://www.seancannon.com/_test/sniper-scope.cur),default;
-	cursor:url(../images/cursor.cur), default;
+	cursor:url(../images/rocket.cur), default;
 	background: url(../images/stars.jpg);
 
 }

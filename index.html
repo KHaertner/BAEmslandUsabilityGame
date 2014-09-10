@@ -14,7 +14,7 @@
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var intervall = 200;							//Nach 200 ms wird ein neues Hindernis gespawnt
 		var hardness = "slow";
-		var energyMode = false;							//Energymodus ist aus zu Beginn
+		var energyMode = true;							//Energymodus mit klick auf start ist aus zu Beginn
 		var energyLeft = 100;							//Anfangsenergie
 
 		$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
@@ -107,7 +107,7 @@
 				maxTime = 10000;
 				minTime = 5000;
 				intervall = 200;
-				energyMode = false;
+				energyMode = true;
 				energyLeft = 100;
 				hardness = "slow";
 				setState('menu');
@@ -133,12 +133,12 @@
 			$("#box"+id).animate({'left' : "-="+left+"px"}, speed, 'linear'); //Bewegung erzeugen
 		}
 
-		function energy(){
+		function energy(){								//wechselt bei klick den cursur
 			if (energyMode == false) {
-				$('#cursor').css({'background':'url(./images/rocketenergy.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				$('#game').css({'cursor':'url(./images/rocketenergy.cur), default'});
 				energyMode = true;
 			}else{
-				$('#cursor').css({'background':'url(./images/rocket.png)', 'background-size': '100%', 'background-position':'-5px -4px'});
+				$('#game').css({'cursor':'url(./images/rocket.cur), default'});
 				energyMode = false;
 			};
 
@@ -168,7 +168,7 @@
 </head>
 <body>
 	<!-- Frame -->
-	<div id="game">
+	<div id="game" onclick="energy();">
 
 		<!-- menüoberfläche -->
 		<div class="menu">
@@ -181,13 +181,13 @@
 		Energy:			<input type='text' id='energy' style="width:30px">
 						<input type='text' id='x' style="width:30px"> :
 						<input type='text' id='y' style="width:30px">
-		Hinternisse: 	<input type='text' id="points" style="width:30px">
+		Hindernisse: 	<input type='text' id="points" style="width:30px">
 		Intervall: 		<input type='text' id="intervall" style="width:30px">
 		Max: 			<input type='text' id="max" style="width:30px">
 		Min: 			<input type='text' id="min" style="width:30px">
 	</div>
 
 	<!-- Aussehen des Cursers/Avatar -->
-	<div id="cursor" onclick="energy();"></div>
+	<div id="cursor"></div>
 </body>
 </html>
