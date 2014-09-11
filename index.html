@@ -47,6 +47,7 @@
 		}
 
 		function inGame(){ 								//bewegt und spawnt die Hindernisse
+
 			number++;
 			if (energyMode == true && energyLeft < 1) {
 				energyOff();
@@ -192,7 +193,8 @@
 				var offset = $(this).offset();			//Berechnung der Mauskoordinaten
 				var new_x = (e.clientX - offset.left);
 				var new_y = (e.clientY - offset.top);
-				$('#cursor').css({'top': new_y-5, 'left' : new_x-20}); //Bild (Rakete) bewegen
+				$('#showEnergy').css({'top': new_y-6, 'left' : new_x-energyLeft+10, 'width' : energyLeft});
+				$('#cursor').css({'top': new_y-5, 'left' : new_x}); //Bild (Rakete) bewegen
 				$('#x').val(new_x);						//Ausgabe der x,y Koordinaten under der Frame
 				$('#y').val(new_y);
 				
@@ -238,6 +240,7 @@
 	<div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div>
 
 	<!-- Aussehen des Cursers/Avatar -->
+	<div id="showEnergy"></div>
 	<div id="cursor"></div>
 </body>
 </html>

@@ -32,3 +32,10 @@ body{
 .stats{
 
 }
+#showEnergy{
+	background: green;
+	height: 5px;
+	width: 40px;
+	position: fixed;
+	z-index: 11;
+}
