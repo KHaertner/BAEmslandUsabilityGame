@@ -3,8 +3,8 @@ body{
 }
 #game{
 	border: solid 1px;
-	height: 250px;
-	width: 500px;
+	height: 600px;
+	width: 1000px;
 	#cursor:url(http://www.seancannon.com/_test/sniper-scope.cur),default;
 	cursor:url(../images/rocket.cur), default;
 	background: url(../images/stars.jpg);
@@ -13,7 +13,6 @@ body{
 .menu{
 		border: solid 1px;
 		width: 200px;
-		height: 100px;
 		margin: auto;
 		margin-top: 50px;
 		color: white;
