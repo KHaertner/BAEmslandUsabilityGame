@@ -30,7 +30,7 @@
 		        break;
 
 		        case 39: 								// right
-		        break;
+		        ingo = false;
 
 		        case 40: 								// down
 		        break;
@@ -42,13 +42,22 @@
 
 		function timer(){
 			gameinterval = window.setInterval(function(){
-			  	inGame();
+				inGame();
 			}, intervall);								//setzt die Zeit der neuberechnung, in diesem Fall wird die Spawnmethode nach "intervall" ms aufgerufen
 		}
 
 		function inGame(){ 								//bewegt und spawnt die Hindernisse
 
 			number++;
+
+			/*var testObj = $(document.elementFromPoint(x, y));
+
+		  	if(testObj.is('.box')){ //TODO
+				if (testObj.is('#bad')) {
+					lose(0, 3);
+				};		
+			};*/
+
 			if (energyMode == true && energyLeft < 1) {
 				energyOff();
 				$('#game').css({'cursor':'url(./images/rocket.cur), default'});
@@ -104,7 +113,7 @@
 		}
 
     	function lose(points, reasonid){							//Anzeige und reset der Stats
-			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen"};
+			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
 				$('#your_points').remove();		
 				$('.menu').append("<div id='your_points'>Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>");//neuer Container wird angefügt
@@ -140,9 +149,9 @@
 			}else if(powerUp<5){
 				box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/coin.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='coins("+id+");'></div>");
 			}else if(ingo == false) {
-				box = $("<div id=box"+id+" class='box' style='width: 50px; height: 50px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
+				box = $("<div id=box"+id+" class='box bad' style='width: 50px; height: 50px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
 			}else{
-				box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
+				box = $("<div id=box"+id+" class='box bad' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
 			};
 			
 			$(document.body).append(box);
@@ -180,8 +189,6 @@
 			energyMode = false;
 		}
 
-		
-
 		function coins(id){
 			coin += 1;
 			$('#coin').val(coin);
@@ -198,7 +205,7 @@
 				$('#x').val(new_x);						//Ausgabe der x,y Koordinaten under der Frame
 				$('#y').val(new_y);
 				
-				if (state == "play" && ((new_x) < 0 || (new_x) > width || (new_y) < 0 || (new_y) > height)) {
+				if (state == "play" && ((new_x) < -8 || (new_x) > width || (new_y) < -7 || (new_y) > height)) {
 					if((number-100) < 0){number = 0}else{number = number-100};
 					lose(number, 2);								//Wenn die Maus die Frame verlässt
 				};
@@ -223,7 +230,7 @@
 	</div>
 
 	<!-- Statistiken -->
-	<div class="stats" style="z-index:110; position:fixed; color: white;">
+	<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
 		Energy:			<input type='text' id='energy' style="width:30px">
 		Coins:			<input type='text' id='coin' style="width:30px">
 		Destroyed:		<input type='text' id='destroyed' style="width:30px">
@@ -234,10 +241,10 @@
 		Max: 			<input type='text' id="max" style="width:30px">
 		Min: 			<input type='text' id="min" style="width:30px">
 	</div>
-	<div class="border" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px;"></div>
-	<div class="border" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
-	<div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
-	<div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div>
+	<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div> -->
+	<!-- <div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div> -->
+	<div class="border" id="bottom" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
+	<div class="border" id="right" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div>
 
 	<!-- Aussehen des Cursers/Avatar -->
 	<div id="showEnergy"></div>
