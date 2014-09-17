@@ -26,3 +26,5 @@ git fetch
 ```
 
 danach kann man wieder in den neuen Branch gehen und der Prozess beginnt wieder von vorne.
+
+Bitte bei erledigten Aufgaben einen PullRequest stellen, danke.
