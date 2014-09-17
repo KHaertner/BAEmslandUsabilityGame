@@ -2,9 +2,12 @@ body{
 	background: white;
 }
 #game{
-	border: solid 1px;
-	height: 600px;
-	width: 1000px;
+	#border: solid 1px #F00;
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	position: fixed;
 	#cursor:url(http://www.seancannon.com/_test/sniper-scope.cur),default;
 	cursor:url(../images/rocket.cur), default;
 	background: url(../images/stars.jpg);
