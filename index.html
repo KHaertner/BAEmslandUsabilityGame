@@ -1,15 +1,41 @@
 <!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
 <html>
-<head>
-	<title>FH-Osna-Usability</title>
-	<link rel="stylesheet" type="text/css" href="style/style.css">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>FH-Osna-Usability</title>
+		<link rel="stylesheet" type="text/css" href="style/style.css">
 	<script src="jquery.js"></script>
 	<script src="timer.js"></script>
 	<script type="text/javascript">
 
 		var number = 0;									//Anzahl der gespawnten Hindernisse
-		var width = 1000;								//Breite der Frame, ist leider noch z.T. hardcoded
-		var height = 600;								//Höhe der Frame, ist leider noch z.T. hardcoded
+		var width = $(window).innerWidth();								
+		var height = $(window).innerHeight();							
 		var state = "menu";								//Startwert des Fensters (menu/play)
 		var maxTime = 10000;							//Maxwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
@@ -21,24 +47,24 @@
 		var ingo = false;
 		var destroyed = 0;
 
-		$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
-		    switch(e.which) {
-		        case 37: 								// left
-		        ingo = true;
-
-		        case 38: 								// up
-		        break;
-
-		        case 39: 								// right
-		        break;
-
-		        case 40: 								// down
-		        break;
-
-		        default: return; 						// exit this handler for other keys
-		    }
-		    e.preventDefault();
-		}); 											//Ende Keyeingabe
+	//	$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
+	//	    switch(e.which) {
+	//	        case 37: 								// left
+	//	        ingo = true;
+    //
+	//	        case 38: 								// up
+	//	        break;
+    //
+	//	        case 39: 								// right
+	//	        break;
+    //
+	//	        case 40: 								// down
+	//	        break;
+    //
+	//	        default: return; 						// exit this handler for other keys
+	//	    }
+	//	    e.preventDefault();
+	//	}); 											//Ende Keyeingabe
 
 		function timer(){
 			gameinterval = window.setInterval(function(){
@@ -47,7 +73,6 @@
 		}
 
 		function inGame(){ 								//bewegt und spawnt die Hindernisse
-
 			number++;
 			if (energyMode == true && energyLeft < 1) {
 				energyOff();
@@ -161,7 +186,7 @@
 			$("#box"+id).animate({'left' : "-="+left+"px", 'top' : "+="+top+"px"}, speed, 'linear'); //Bewegung erzeugen
 		}
 
-		function energy(){								//wechselt bei klick den cursur
+		function energy(){								//wechselt bei klick den cursor
 			if (energyMode == false) {
 				energyOn();
 			}else{
@@ -188,13 +213,14 @@
 			$('#box'+id).remove();	
 		}
 
-		$(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
+		$(document).ready(function() {		//nachdem das HTML-Dokument geladen wurde
+			$('#game').css({"height": $('body').innerHeight(), "width": $('body').innerWidth()});			
+
 			$('body').mousemove(function(e) { 			//Achte auf Mausbewegung
 				var offset = $(this).offset();			//Berechnung der Mauskoordinaten
 				var new_x = (e.clientX - offset.left);
 				var new_y = (e.clientY - offset.top);
-				$('#showEnergy').css({'top': new_y-6, 'left' : new_x-energyLeft+10, 'width' : energyLeft});
-				$('#cursor').css({'top': new_y-5, 'left' : new_x}); //Bild (Rakete) bewegen
+				$('#cursor').css({'top': new_y-5, 'left' : new_x-20}); //Bild (Rakete) bewegen
 				$('#x').val(new_x);						//Ausgabe der x,y Koordinaten under der Frame
 				$('#y').val(new_y);
 				
@@ -202,7 +228,6 @@
 					if((number-100) < 0){number = 0}else{number = number-100};
 					lose(number, 2);								//Wenn die Maus die Frame verlässt
 				};
-				
 
 				if (number >= 100) {
 					$('#box'+(number-100)).remove();	//Es werden maximal 100 Hindernisse erstellt, frühere werden gelöscht.
@@ -211,14 +236,14 @@
 		});
 
 	</script>
-</head>
-<body>
-	<!-- Frame -->
+    </head>
+    <body>
 	<div id="game">
 
 		<!-- menüoberfläche -->
 		<div class="menu">
 			<button onclick="setState('play');">Start</button>
+			<button onclick="setState('play');">Highscore</button>
 		</div>
 	</div>
 
@@ -234,13 +259,12 @@
 		Max: 			<input type='text' id="max" style="width:30px">
 		Min: 			<input type='text' id="min" style="width:30px">
 	</div>
-	<div class="border" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px;"></div>
-	<div class="border" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
-	<div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
-	<div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div>
+	 <div class="border" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px;"></div>                           <!-- Benötigt Anpassung -->
+	 <!-- <div class="border" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 0px;top: 0px;left: 0px;"></div> -->         <!-- Benötigt Anpassung -->
+	 <div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;left: 0px;"></div>                          <!-- Benötigt Anpassung -->
+	 <div class="border" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;right: 0px;"></div>                         <!-- Benötigt Anpassung -->
 
 	<!-- Aussehen des Cursers/Avatar -->
-	<div id="showEnergy"></div>
 	<div id="cursor"></div>
-</body>
+    </body>
 </html>
