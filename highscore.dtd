@@ -1,0 +1,6 @@
+<!DOCTYPE highscore
+[
+<!ELEMENT highscore (name, points)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT points (#PCDATA)>
+]
