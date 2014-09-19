@@ -1,6 +1,4 @@
-<!DOCTYPE highscore
-[
-<!ELEMENT highscore (name, points)>
+<!ELEMENT highscore (player+)>
+<!ELEMENT player (name, score)>
 <!ELEMENT name (#PCDATA)>
-<!ELEMENT points (#PCDATA)>
-]
+<!ELEMENT score (#PCDATA)>

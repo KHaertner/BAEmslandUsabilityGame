@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="highscore.xsl"?>
 <!DOCTYPE highscore SYSTEM "highscore.dtd">
 <highscore>
-	<name>Ingo</name>
-	<points>400</points>
+	<player>
+		<name>Stefan</name>
+		<score>400</score>
+	</player>
+		<player>
+		<name>Ingo</name>
+		<score>500</score>
+	</player>
 </highscore>
