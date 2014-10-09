@@ -114,17 +114,27 @@
 		function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 			state = gameState;
 			if (state == "play") {
+				
 				$('#game').stop();
+				$('#highscore').remove();
 				$('#game').animate({'background-position':'0px'},1);
 				$('#cursor').css({'display': 'block'});
 				$('.menu').css({'display': 'none'});
+				$('.highscore').css({'display': 'none'});				
 				var bgAnimate = $('#game').animate({'background-position':'-=1000px'},1*60*1000, 'linear');
 				timer();
 			}else if(state == "menu"){
 				clearInterval(gameinterval);
+				$('#highscore').remove();
 				$('#cursor').css({'display': 'none'});
 				$('.menu').css({'display': 'block'});
-				
+				$('.highscore').css({'display': 'block'});
+			}else if(state == "highscore"){
+				clearInterval(gameinterval);
+				$('#highscore').remove();
+				$('#cursor').css({'display': 'none'});
+				$('.highscore').css({'display': 'block'});
+				$('.menu').append("<iframe src='./hs.html' id='highscore' style='background:white; width:100%'>");
 			};
 		}
 
@@ -231,8 +241,7 @@
 					$('#box'+(number-100)).remove();	//Es werden maximal 100 Hindernisse erstellt, frühere werden gelöscht.
 				};			
 			});
-		});
-
+		});	
 	</script>
 </head>
 <body>
@@ -242,8 +251,10 @@
 		<!-- menüoberfläche -->
 		<div class="menu">
 			<button onclick="setState('play');">Start</button>
+			<button onclick="setState('highscore');">Highscore</button>
 		</div>
 	</div>
+	
 
 	<!-- Statistiken -->
 	<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
