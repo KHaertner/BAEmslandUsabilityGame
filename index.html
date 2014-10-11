@@ -138,6 +138,9 @@
 		}
 
     	function lose(points, reasonid){							//Anzeige und reset der Stats
+			if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
+				navigator.vibrate(1000, 500, 750, 300, 500);	//first value vibration duration, second value pause duration
+			}
 			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
 				$('#your_points').remove();		
@@ -245,8 +248,8 @@
 		// K A R S T E N diese Funktion wird nicht zur Laufzeit erkannt :/
 		// add vibration for each button
 		$("button").click(function() {
-			if (window.navigator && window.navigator.vibrate){
-				navigator.vibrate(1000);
+			if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
+				navigator.vibrate(1000);						//vibrate for 1 second
 			}
 		});
 	</script>
