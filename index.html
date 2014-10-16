@@ -259,22 +259,36 @@
 		<div class="menu">
 			<button onclick="setState('play');">Start</button>
 			<button onclick="setState('highscore');">Highscore</button>
+		
+			<div id="your_points">
+				<p>Game Over</p>
+				<p id='reason"></p>
+				<!-- <Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>" -->
+			</div>
+		
+		
+		
+		
+		
+			<!-- Debug Statistiken -->
+			<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
+				Energy:			<input type='text' id='energy' style="width:30px">
+				Coins:			<input type='text' id='coin' style="width:30px">
+				Destroyed:		<input type='text' id='destroyed' style="width:30px">
+								<input type='text' id='x' style="width:30px"> :
+								<input type='text' id='y' style="width:30px">
+				Hindernisse: 	<input type='text' id="points" style="width:30px">
+				Intervall: 		<input type='text' id="intervall" style="width:30px">
+				Max: 			<input type='text' id="max" style="width:30px">
+				Min: 			<input type='text' id="min" style="width:30px">
+				<!-- Name:			<input type="text" id="scoreform" name="playername"><input id="submit" type="submit"> -->
+
+			</div>
 		</div>
 	</div>
 	
 
-	<!-- Statistiken -->
-	<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
-		Energy:			<input type='text' id='energy' style="width:30px">
-		Coins:			<input type='text' id='coin' style="width:30px">
-		Destroyed:		<input type='text' id='destroyed' style="width:30px">
-						<input type='text' id='x' style="width:30px"> :
-						<input type='text' id='y' style="width:30px">
-		Hindernisse: 	<input type='text' id="points" style="width:30px">
-		Intervall: 		<input type='text' id="intervall" style="width:30px">
-		Max: 			<input type='text' id="max" style="width:30px">
-		Min: 			<input type='text' id="min" style="width:30px">
-	</div>
+	
 	<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div>
 	<div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
 	<div class="border" id="bottom" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
