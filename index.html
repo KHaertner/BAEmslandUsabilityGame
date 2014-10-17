@@ -24,7 +24,8 @@
 	<meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>   
+   <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <title>FH-Osna-Usability</title>
 	<link rel="stylesheet" type="text/css" href="style/style.css">
@@ -140,8 +141,18 @@
     	function lose(points, reasonid){							//Anzeige und reset der Stats
 			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
-				$('#your_points').remove();		
-				$('.menu').append("<div id='your_points'>Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>");//neuer Container wird angefügt
+				
+				// Aktualisiert die Anzeige und stellt sie dar
+				
+				// $('.menu').append("<div id='your_points'>Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>");//neuer Container wird angefügt
+
+				$('#reason').html(reason[reasonid]);
+				$('#range').html("Strecke: " + points);
+				$('#coins').html("Münzen(3x): " + coin);
+				$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + points + destroyed*2));
+				$('#destroyed').html("Kometen(2x): " + destroyed);
+				$('#your_points').show();
+				
 				$('.box').remove();						//Container mit alten Stats wird gelöscht
 				destroyed = 0;
 				number = 0;
@@ -162,6 +173,11 @@
 				$('#destroyed').val(destroyed);
 			};
 		}
+		
+		function submitScore(){
+			
+		}
+		
 		function createBox(id){							//Hindernis berechnen und als container anzeigen
 			if (id == 1 && energyMode==true) {energy();};
 			var powerUp = Math.floor(Math.random()*100);
@@ -259,16 +275,16 @@
 		<div class="menu">
 			<button onclick="setState('play');">Start</button>
 			<button onclick="setState('highscore');">Highscore</button>
-		
-			<div id="your_points">
+			
+			<!-- Darstellung des Highscore -->
+			<div id="your_points" style="display:none;">
 				<p>Game Over</p>
-				<p id='reason'>Lorem Ipsum</p>
-				<p id='range'>Lorem Ipsum</p>
-				<p id='coins'>Lorem Ipsum</p>
-				<p id='destroyed'>Lorem Ipsum</p>
-				<p id='totalscore'>Lorem Ipsum</p>
-				<input type="text" id="scoreform" name="playername"><input id="submit" type="submit">
-				<!-- <Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>" -->
+				<p id='reason'></p>
+				<p id='range'></p>
+				<p id='coins'></p>
+				<p id='destroyed'></p>
+				<p id='totalscore'></p>
+				<input type="text" id="scoreform" name="playername"><input id="submit" type="submit" onclick="submitScore()">
 			</div>
 		
 		
@@ -286,8 +302,6 @@
 				Intervall: 		<input type='text' id="intervall" style="width:30px">
 				Max: 			<input type='text' id="max" style="width:30px">
 				Min: 			<input type='text' id="min" style="width:30px">
-				<!-- Name:			<input type="text" id="scoreform" name="playername"><input id="submit" type="submit"> -->
-
 			</div>
 		</div>
 	</div>
