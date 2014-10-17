@@ -34,8 +34,8 @@
 	<script type="text/javascript">
 
 		var number = 0;									//Anzahl der gespawnten Hindernisse
-		var width = $(window).innerWidth();								//Breite der Frame, ist leider noch z.T. hardcoded
-		var height = $(window).innerHeight();								//Höhe der Frame, ist leider noch z.T. hardcoded
+		var width = $(window).innerWidth();				//Breite der Frame, ist leider noch z.T. hardcoded
+		var height = $(window).innerHeight();			//Höhe der Frame, ist leider noch z.T. hardcoded
 		var state = "menu";								//Startwert des Fensters (menu/play)
 		var maxTime = 10000;							//Maxwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
@@ -46,6 +46,7 @@
 		var coin = 0;
 		var ingo = false;
 		var destroyed = 0;
+		
 
 		/*$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
 		    switch(e.which) {
@@ -142,18 +143,18 @@
 			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
 				
-				// Aktualisiert die Anzeige und stellt sie dar
-				
-				// $('.menu').append("<div id='your_points'>Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>");//neuer Container wird angefügt
-
+				//aktualisiert die Statistik
 				$('#reason').html(reason[reasonid]);
 				$('#range').html("Strecke: " + points);
 				$('#coins').html("Münzen(3x): " + coin);
 				$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + points + destroyed*2));
 				$('#destroyed').html("Kometen(2x): " + destroyed);
 				$('#your_points').show();
+				$('#scoreform').show();
+				$('#submit').show();
 				
 				$('.box').remove();						//Container mit alten Stats wird gelöscht
+				points = $('#points').val();
 				destroyed = 0;
 				number = 0;
 				maxTime = 10000;
@@ -166,7 +167,7 @@
 				ingo = false;
 				setState('menu');	
 				$('#coin').val(coin);
-				$('#destroyed').val(destroyed);									
+				$('#destroyed').val(destroyed);
 			}else{
 				destroyed += 1;
 				$('#box'+points).remove();
@@ -174,8 +175,22 @@
 			};
 		}
 		
+		//Herstellen des XMLHttpRequest und Anbindung an das PHP Skript zur Übermittlung des Scores
 		function submitScore(){
 			
+			name = $('#scoreform').val();
+			
+			var request = new XMLHttpRequest();
+			request.open("POST", "xmlsubmit.php", true);
+			request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			request.onload = function() {
+				var resp = request.response;
+			};
+			request.send("name=" + name + "&score=" + (coin*3 + points + destroyed*2));
+			
+			//versteckt das Formular nachdem die Übermittlung geschehen ist
+			$('#scoreform').hide();
+			$('#submit').hide();
 		}
 		
 		function createBox(id){							//Hindernis berechnen und als container anzeigen
@@ -284,7 +299,7 @@
 				<p id='coins'></p>
 				<p id='destroyed'></p>
 				<p id='totalscore'></p>
-				<input type="text" id="scoreform" name="playername"><input id="submit" type="submit" onclick="submitScore()">
+				<input type="text" id="scoreform" name="playername"><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
 			</div>
 		
 		
@@ -292,7 +307,7 @@
 		
 		
 			<!-- Debug Statistiken -->
-			<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
+			<div class="stats" style="z-index:110; position:fixed; color: white; display: none;">
 				Energy:			<input type='text' id='energy' style="width:30px">
 				Coins:			<input type='text' id='coin' style="width:30px">
 				Destroyed:		<input type='text' id='destroyed' style="width:30px">

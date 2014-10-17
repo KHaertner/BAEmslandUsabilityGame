@@ -1,18 +1,17 @@
 <?php
-	$filename = 'highscore.xml';
+$name = htmlentities($_POST['name']);
+$score = htmlentities($_POST['score']);
 
-	// code
-	$file = realpath($filename) ? realpath($filename) : false;
-	if ( $file ) $xml = simplexml_load_file($file);
-	else {
-		$xml = new SimpleXMLElement('<highscore></highscore>');
-		$xml->asXML($filename);
-	}
+$scores = new DOMDocument();
+$scores->load("highscore.xml");
+$scoresRoot = $scores->getElementsByTagName('highscore')->item(0);
 
-	$targetNode = $xml->xpath('player');
+$scoresNode = $scores->createElement('player');
+$scoresRoot->appendChild($scoresNode);
+$scoresNode->appendChild($scores->createElement("name", $name));
+$scoresNode->appendChild($scores->createElement("score", $score));
 
-	if ( count($targetNode) == 0 ) $xml->addChild('player', 'neuer Wert');
-	$xml->wochentag[0] = 'neuer Wert';
+$scores->save("highscore.xml");
 
-$xml->asXML($filename); 
+
 ?>
