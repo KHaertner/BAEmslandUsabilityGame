@@ -47,6 +47,7 @@
 		var ingo = false;
 		var destroyed = 0;
 		
+		
 
 		/*$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
 		    switch(e.which) {
@@ -131,7 +132,6 @@
 				$('.menu').css({'display': 'block'});
 				$('.highscore').css({'display': 'block'});
 			}else if(state == "highscore"){
-				clearInterval(gameinterval);
 				$('#highscore').remove();
 				$('#cursor').css({'display': 'none'});
 				$('.highscore').css({'display': 'block'});
@@ -145,16 +145,15 @@
 				
 				//aktualisiert die Statistik
 				$('#reason').html(reason[reasonid]);
-				$('#range').html("Strecke: " + points);
+				$('#range').html("Strecke: " + number);
 				$('#coins').html("Münzen(3x): " + coin);
-				$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + points + destroyed*2));
+				$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + number + destroyed*2));
 				$('#destroyed').html("Kometen(2x): " + destroyed);
 				$('#your_points').show();
 				$('#scoreform').show();
 				$('#submit').show();
 				
-				$('.box').remove();						//Container mit alten Stats wird gelöscht
-				points = $('#points').val();
+				$('.box').remove();						//Container mit alten Stats wird gelöscht;
 				destroyed = 0;
 				number = 0;
 				maxTime = 10000;
@@ -186,7 +185,7 @@
 			request.onload = function() {
 				var resp = request.response;
 			};
-			request.send("name=" + name + "&score=" + (coin*3 + points + destroyed*2));
+			request.send("name=" + name + "&score=" + (coin*3 + number + destroyed*2));
 			
 			//versteckt das Formular nachdem die Übermittlung geschehen ist
 			$('#scoreform').hide();
