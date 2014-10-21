@@ -2,12 +2,5 @@
 <?xml-stylesheet type="text/xsl" href="highscore.xsl"?>
 <!DOCTYPE highscore SYSTEM "highscore.dtd">
 <highscore>
-	<player>
-		<name>Stefan</name>
-		<score>400</score>
-	</player>
-		<player>
-		<name>Ingo</name>
-		<score>500</score>
-	</player>
+
 </highscore>
