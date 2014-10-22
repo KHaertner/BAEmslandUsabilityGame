@@ -16,11 +16,14 @@ body{
 
 }
 .menu{
-		border: solid 1px;
-		width: 200px;
+		width: 30%;
 		margin: auto;
-		margin-top: 50px;
+		margin-top: 5%;
 		color: white;
+}
+
+tr {
+    border-bottom: 1px solid white;
 }
 
 .box{
