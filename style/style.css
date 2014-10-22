@@ -1,6 +1,8 @@
 body{
 	background: white;
+	font-family: 'Open Sans', sans-serif;
 }
+
 #game{
 	#border: solid 1px #F00;
 	height: 100%;

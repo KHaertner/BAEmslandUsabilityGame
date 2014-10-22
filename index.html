@@ -24,7 +24,8 @@
 	<meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>   
+   <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <title>FH-Osna-Usability</title>
 	<link rel="stylesheet" type="text/css" href="style/style.css">
@@ -33,8 +34,8 @@
 	<script type="text/javascript">
 
 		var number = 0;									//Anzahl der gespawnten Hindernisse
-		var width = $(window).innerWidth();								//Breite der Frame, ist leider noch z.T. hardcoded
-		var height = $(window).innerHeight();								//Höhe der Frame, ist leider noch z.T. hardcoded
+		var width = $(window).innerWidth();				//Ermittlung der Fenstergröße und Anpassung der Spielfläche
+		var height = $(window).innerHeight();			//Ermittlung der Fenstergröße und Anpassung der Spielfläche
 		var state = "menu";								//Startwert des Fensters (menu/play)
 		var maxTime = 10000;							//Maxwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
@@ -45,6 +46,8 @@
 		var coin = 0;
 		var ingo = false;
 		var destroyed = 0;
+		
+		
 
 		/*$(document).keydown(function(e) { 				// noch nicht implementiert, aber evtl wollen wir tasten nutzen.
 		    switch(e.which) {
@@ -113,7 +116,7 @@
 		function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 			state = gameState;
 			if (state == "play") {
-				
+				number = 0;								// setzt die Anzahl der erreichten Hindernisse zurück
 				$('#game').stop();
 				$('#highscore').remove();
 				$('#game').animate({'background-position':'0px'},1);
@@ -129,7 +132,6 @@
 				$('.menu').css({'display': 'block'});
 				$('.highscore').css({'display': 'block'});
 			}else if(state == "highscore"){
-				clearInterval(gameinterval);
 				$('#highscore').remove();
 				$('#cursor').css({'display': 'none'});
 				$('.highscore').css({'display': 'block'});
@@ -143,11 +145,19 @@
 			}
 			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
-				$('#your_points').remove();		
-				$('.menu').append("<div id='your_points'>Game Over<br>"+ reason[reasonid] +" <br>+ "+ points +" Strecke<br>+ "+ coin +" Coins (3x)<br>+ "+ destroyed +" Kometen (2x)<br>= "+ (coin*3 + points + destroyed*2) +" Gesamte Punktzahl</div>");//neuer Container wird angefügt
-				$('.box').remove();						//Container mit alten Stats wird gelöscht
+				
+				//aktualisiert die Statistik your_points
+				$('#reason').html(reason[reasonid]);
+				$('#range').html("Strecke: " + number);
+				$('#coins').html("Münzen(3x): " + coin);
+				$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + number + destroyed*2));
+				$('#destroyed').html("Kometen(2x): " + destroyed);
+				$('#your_points').show();
+				$('#scoreform').show();
+				$('#submit').show();
+				
+				$('.box').remove();						//Container mit alten Stats wird gelöscht;
 				destroyed = 0;
-				number = 0;
 				maxTime = 10000;
 				minTime = 5000;
 				intervall = 200;
@@ -158,13 +168,32 @@
 				ingo = false;
 				setState('menu');	
 				$('#coin').val(coin);
-				$('#destroyed').val(destroyed);									
+				$('#destroyed').val(destroyed);
 			}else{
 				destroyed += 1;
 				$('#box'+points).remove();
 				$('#destroyed').val(destroyed);
 			};
 		}
+		
+		//Herstellen des XMLHttpRequest und Anbindung an das PHP Skript zur Übermittlung des Scores
+		function submitScore(){
+			
+			name = $('#scoreform').val();
+			
+			var request = new XMLHttpRequest();
+			request.open("POST", "xmlsubmit.php", true);
+			request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			request.onload = function() {
+				var resp = request.response;
+			};
+			request.send("name=" + name + "&score=" + (coin*3 + number + destroyed*2));		//Weitergabe des Highscores an das PHP Skript
+			
+			//versteckt das Formular nachdem die Übermittlung geschehen ist
+			$('#scoreform').hide();
+			$('#submit').hide();
+		}
+		
 		function createBox(id){							//Hindernis berechnen und als container anzeigen
 			if (id == 1 && energyMode==true) {energy();};
 			var powerUp = Math.floor(Math.random()*100);
@@ -262,22 +291,40 @@
 		<div class="menu">
 			<button onclick="setState('play');">Start</button>
 			<button onclick="setState('highscore');">Highscore</button>
+			
+			<!-- Darstellung des Highscore -->
+			<div id="your_points" style="display:none;">
+				<p>Game Over</p>
+				<p id='reason'></p>
+				<p id='range'></p>
+				<p id='coins'></p>
+				<p id='destroyed'></p>
+				<p id='totalscore'></p>
+			<!-- Eingabeformular für den Highscore -->
+				<input type="text" id="scoreform" name="playername"><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
+			</div>
+		
+		
+		
+		
+		
+			<!-- Debug Statistiken -->
+			<div class="stats" style="z-index:110; position:fixed; color: white; display: none;">
+				Energy:			<input type='text' id='energy' style="width:30px">
+				Coins:			<input type='text' id='coin' style="width:30px">
+				Destroyed:		<input type='text' id='destroyed' style="width:30px">
+								<input type='text' id='x' style="width:30px"> :
+								<input type='text' id='y' style="width:30px">
+				Hindernisse: 	<input type='text' id="points" style="width:30px">
+				Intervall: 		<input type='text' id="intervall" style="width:30px">
+				Max: 			<input type='text' id="max" style="width:30px">
+				Min: 			<input type='text' id="min" style="width:30px">
+			</div>
 		</div>
 	</div>
 	
 
-	<!-- Statistiken -->
-	<div class="stats" style="z-index:110; position:fixed; color: white; display:none;">
-		Energy:			<input type='text' id='energy' style="width:30px">
-		Coins:			<input type='text' id='coin' style="width:30px">
-		Destroyed:		<input type='text' id='destroyed' style="width:30px">
-						<input type='text' id='x' style="width:30px"> :
-						<input type='text' id='y' style="width:30px">
-		Hindernisse: 	<input type='text' id="points" style="width:30px">
-		Intervall: 		<input type='text' id="intervall" style="width:30px">
-		Max: 			<input type='text' id="max" style="width:30px">
-		Min: 			<input type='text' id="min" style="width:30px">
-	</div>
+	
 	<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div>
 	<div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
 	<div class="border" id="bottom" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
