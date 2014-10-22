@@ -2,4 +2,4 @@
 <?xml-stylesheet type="text/xsl" href="highscore.xsl"?>
 <!DOCTYPE highscore SYSTEM "highscore.dtd">
 <highscore>
-</highscore>
+<player><name>Jon Doe</name><score>0</score></player></highscore>
