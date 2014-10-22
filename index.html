@@ -21,68 +21,98 @@
 -->
 <html>
 <head>
+	
+	<title>FH-Osna-Usability</title>
+	
 	<meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>   
-   <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-    <title>FH-Osna-Usability</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
 	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>   
+
 	<script src="scripts/jquery.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 	<script src="scripts/timer.js"></script>
 	<script src="scripts/game.js"></script>
 
 </head>
 <body>
 	<!-- Frame -->
-	<div id="game">
+	<div data-role="page">
+		<div data-role="main" id="game">
 
-		<!-- Menüoberfläche -->
-		<div class="menu">
-			<button onclick="setState('play');">Start</button>
-			<button onclick="setState('highscore');">Highscore</button>
+			<!-- Menüoberfläche -->
+			<div data-role="ui-content" class="menu">
+				<button onclick="setState('play');">Start</button>
+				<button onclick="setState('highscore');">Highscore</button>
+				
+				<!-- Darstellung des Highscore -->
+				<div id="your_points" style="display:none;">
+					
+					<p style="text-align:center;">Game Over</p>	
+					
+					<table data-role="table" class="ui-responsive">
+						<thead>
+							<th></th>
+							<th></th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Hindernisse</td>
+								<td id='range'></td>
+							</tr>
+							<tr>
+								<td>Münzen(3x)</td>
+								<td id='coins'></td>
+							</tr>
+							<tr>
+								<td>zerstörte Kometen(2x)</td>
+								<td id='destroyed'></td>
+							</tr>
+							<tr>
+								<td>Gesamte Punktzahl</td>
+								<td id='totalscore'></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+				<!-- Eingabeformular für den Highscore -->
+					<input type="text" id="scoreform" name="playername" placeholder="Dein Name..."><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
+				</div>
 			
-			<!-- Darstellung des Highscore -->
-			<div id="your_points" style="display:none;">
-				<p>Game Over</p>
-				<p id='reason'></p>
-				<p id='range'></p>
-				<p id='coins'></p>
-				<p id='destroyed'></p>
-				<p id='totalscore'></p>
-			<!-- Eingabeformular für den Highscore -->
-				<input type="text" id="scoreform" name="playername"><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
-			</div>
-		
-		
-		
-		
-		
-			<!-- Debug Statistiken -->
-			<div class="stats" style="z-index:110; position:fixed; color: white; display: none;">
-				Energy:			<input type='text' id='energy' style="width:30px">
-				Coins:			<input type='text' id='coin' style="width:30px">
-				Destroyed:		<input type='text' id='destroyed' style="width:30px">
-								<input type='text' id='x' style="width:30px"> :
-								<input type='text' id='y' style="width:30px">
-				Hindernisse: 	<input type='text' id="points" style="width:30px">
-				Intervall: 		<input type='text' id="intervall" style="width:30px">
-				Max: 			<input type='text' id="max" style="width:30px">
-				Min: 			<input type='text' id="min" style="width:30px">
+			
+			
+			
+			
+				<!-- Debug Statistiken -->
+				<div class="stats" style="z-index:110; position:fixed; color: white; display: none;">
+					Energy:			<input type='text' id='energy' style="width:30px">
+					Coins:			<input type='text' id='coin' style="width:30px">
+					Destroyed:		<input type='text' id='destroyed' style="width:30px">
+									<input type='text' id='x' style="width:30px"> :
+									<input type='text' id='y' style="width:30px">
+					Hindernisse: 	<input type='text' id="points" style="width:30px">
+					Intervall: 		<input type='text' id="intervall" style="width:30px">
+					Max: 			<input type='text' id="max" style="width:30px">
+					Min: 			<input type='text' id="min" style="width:30px">
+				</div>
 			</div>
 		</div>
-	</div>
-	
+		
 
-	
-	<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div>
-	<div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
-	<div class="border" id="bottom" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
-	<div class="border" id="right" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div> -->
+		
+		<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div>
+		<div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>
+		<div class="border" id="bottom" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 610px;left: 0px;"></div>
+		<div class="border" id="right" style="height: 100%;background: black;position: fixed;z-index: 10;width: 100%;top: 0px;left: 1010px;"></div> -->
 
-	<!-- Aussehen des Cursors/Avatar -->
-	<div id="showEnergy"></div>
-	<div id="cursor"></div>
+		<!-- Aussehen des Cursors/Avatar -->
+		<div id="showEnergy"></div>
+		<div id="cursor"></div>
+	</div>	
 </body>
 </html>

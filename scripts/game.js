@@ -113,10 +113,10 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		
 		//aktualisiert die Statistik your_points
 		$('#reason').html(reason[reasonid]);
-		$('#range').html("Strecke: " + number);
-		$('#coins').html("Münzen(3x): " + coin);
-		$('#totalscore').html("Gesamte Punktzahl: " + (coin*3 + number + destroyed*2));
-		$('#destroyed').html("Kometen(2x): " + destroyed);
+		$('#range').html(number);
+		$('#coins').html(coin);
+		$('#totalscore').html(coin*3 + number + destroyed*2);
+		$('#destroyed').html(destroyed);
 		$('#your_points').show();
 		$('#scoreform').show();
 		$('#submit').show();

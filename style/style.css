@@ -16,11 +16,34 @@ body{
 
 }
 .menu{
-		border: solid 1px;
-		width: 200px;
+		width: 30%;
 		margin: auto;
-		margin-top: 50px;
+		margin-top: 5%;
 		color: white;
+}
+
+tr {
+    border-bottom: 1px solid white;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
+
+input[type='text'] {
+text-align: center;
 }
 
 .box{
