@@ -1,6 +1,7 @@
 <html>
 <head>
 <script>
+// jQueury Skript zum laden der XML/XSL
 function loadXMLDoc(filename)
 {
 if (window.ActiveXObject)
@@ -21,13 +22,13 @@ function displayResult()
 {
 xml = loadXMLDoc("highscore.xml");
 xsl = loadXMLDoc("highscore.xsl");
-// code for IE
+// Code für IE
 if (window.ActiveXObject || xhttp.responseType == "msxml-document")
   {
   ex = xml.transformNode(xsl);
   document.getElementById("example").innerHTML = ex;
   }
-// code for Chrome, Firefox, Opera, etc.
+// Code für Chrome, Firefox, Opera, etc.
 else if (document.implementation && document.implementation.createDocument)
   {
   xsltProcessor = new XSLTProcessor();

@@ -34,8 +34,8 @@
 	<script type="text/javascript">
 
 		var number = 0;									//Anzahl der gespawnten Hindernisse
-		var width = $(window).innerWidth();				//Breite der Frame, ist leider noch z.T. hardcoded
-		var height = $(window).innerHeight();			//Höhe der Frame, ist leider noch z.T. hardcoded
+		var width = $(window).innerWidth();				//Ermittlung der Fenstergröße und Anpassung der Spielfläche
+		var height = $(window).innerHeight();			//Ermittlung der Fenstergröße und Anpassung der Spielfläche
 		var state = "menu";								//Startwert des Fensters (menu/play)
 		var maxTime = 10000;							//Maxwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
 		var minTime = 5000;								//Minwert, den ein Hindernis brauch um von links nach rechts zu gelangen in ms
@@ -116,7 +116,7 @@
 		function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 			state = gameState;
 			if (state == "play") {
-				
+				number = 0;								// setzt die Anzahl der erreichten Hindernisse zurück
 				$('#game').stop();
 				$('#highscore').remove();
 				$('#game').animate({'background-position':'0px'},1);
@@ -143,7 +143,7 @@
 			var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 			if (energyMode==false || reasonid == 2) {
 				
-				//aktualisiert die Statistik
+				//aktualisiert die Statistik your_points
 				$('#reason').html(reason[reasonid]);
 				$('#range').html("Strecke: " + number);
 				$('#coins').html("Münzen(3x): " + coin);
@@ -155,7 +155,6 @@
 				
 				$('.box').remove();						//Container mit alten Stats wird gelöscht;
 				destroyed = 0;
-				number = 0;
 				maxTime = 10000;
 				minTime = 5000;
 				intervall = 200;
@@ -185,7 +184,7 @@
 			request.onload = function() {
 				var resp = request.response;
 			};
-			request.send("name=" + name + "&score=" + (coin*3 + number + destroyed*2));
+			request.send("name=" + name + "&score=" + (coin*3 + number + destroyed*2));		//Weitergabe des Highscores an das PHP Skript
 			
 			//versteckt das Formular nachdem die Übermittlung geschehen ist
 			$('#scoreform').hide();
@@ -298,6 +297,7 @@
 				<p id='coins'></p>
 				<p id='destroyed'></p>
 				<p id='totalscore'></p>
+			<!-- Eingabeformular für den Highscore -->
 				<input type="text" id="scoreform" name="playername"><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
 			</div>
 		
