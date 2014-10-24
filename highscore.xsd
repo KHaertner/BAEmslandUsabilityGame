@@ -1,0 +1,32 @@
+<!-- Beispiel XML Schema für den highscore.xml -->
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="highscore">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="player"/>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="xs:string">
+								<!-- beschränkt die maximale Zeichenlänge auf 12 Zeichen -->
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:length value="12"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="score" type="xs:integer">
+								<!-- beschränkt den minimalen Score auf 0 Punkte -->
+								<xs:simpleType>
+									<xs:restriction base="xs:integer">
+										<xs:minInclusive value="0"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
