@@ -4,10 +4,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
   <html>
-  <body>
-    <h2>Highscore</h2>
-    <table border="1">
-      <tr bgcolor="#9acd32">
+  <body bgcolor="#ffffff">
+    <table border="1" align="center">
+      <tr>
         <th>Name</th>
         <th>Score</th>
       </tr>
