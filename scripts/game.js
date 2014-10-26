@@ -122,13 +122,11 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		$('#submit').show();
 		
 		$('.box').remove();						//Container mit alten Stats wird gelöscht;
-		destroyed = 0;
 		maxTime = 10000;
 		minTime = 5000;
 		intervall = 200;
 		energyMode = true;
 		energyLeft = 0;
-		coin = 0;
 		hardness = "slow";
 		ingo = false;
 		setState('menu');	
@@ -160,6 +158,7 @@ function submitScore(){
 }
 
 function createBox(id){							//Hindernis berechnen und als container anzeigen
+	var cometheight = height/15;
 	if (id == 1 && energyMode==true) {energy();};
 	var powerUp = Math.floor(Math.random()*100);
 	var y = Math.floor(Math.random() * height-10);	//Zufallszahl der Spawnhöhe
@@ -171,7 +170,13 @@ function createBox(id){							//Hindernis berechnen und als container anzeigen
 	}else if(powerUp<5){
 		box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/coin.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='coins("+id+");'></div>");
 	}else if(ingo == false) {
-		box = $("<div id=box"+id+" class='box bad' style='width: 50px; height: 50px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
+		$("canvas").drawArc({
+		  draggable: true,
+		  fillStyle: "green",
+		  x: cometheight, y: cometheight,
+		  radius: 50
+		});
+		// box = $("<canvas id=box"+id+" class='box bad' style='width:"+cometheight+"px; height:"+cometheight+"px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></canvas>");
 	}else{
 		box = $("<div id=box"+id+" class='box bad' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
 	};
