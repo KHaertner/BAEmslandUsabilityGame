@@ -15,11 +15,24 @@ body{
 	background: url(../images/stars.jpg);
 
 }
-.menu{
+
+#info{
+	width: 70px;
+	float: left;
+	position: relative;
+}
+
+.menu, #tutorial{
 		width: 30%;
 		margin: auto;
 		margin-top: 5%;
-		color: white;
+		color: white;	
+}
+
+#controls {
+	position: fixed;
+	top: 0px;
+	left; 0px;
 }
 
 tr {
