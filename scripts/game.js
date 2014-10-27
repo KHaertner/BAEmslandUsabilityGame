@@ -244,12 +244,9 @@ $(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
 			$('#box'+(number-100)).remove();	//Es werden maximal 100 Hindernisse erstellt, frühere werden gelöscht.
 		};			
 	});
+	$("button").click(function() {
+		if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
+			navigator.vibrate(1000);						//vibrate for 1 second
+		}
+	});	
 });	
-
-// K A R S T E N diese Funktion wird nicht zur Laufzeit erkannt :/
-// add vibration for each button
-$("button").click(function() {
-	if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
-		navigator.vibrate(1000);						//vibrate for 1 second
-	}
-});
