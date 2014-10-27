@@ -217,6 +217,11 @@ function coins(id){
 }
 
 $(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
+	$("button").click(function() {
+		if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
+			navigator.vibrate(1000);						//vibrate for 1 second
+		}
+	});
 	$('body').mousemove(function(e) { 			//Achte auf Mausbewegung
 		var offset = $(this).offset();			//Berechnung der Mauskoordinaten
 		var new_x = (e.clientX - offset.left);
@@ -240,8 +245,3 @@ $(document).ready(function() { 					//nachdem das HTML-Dokument geladen wurde
 
 // K A R S T E N diese Funktion wird nicht zur Laufzeit erkannt :/
 // add vibration for each button
-$("button").click(function() {
-	if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
-		navigator.vibrate(1000);						//vibrate for 1 second
-	}
-});
