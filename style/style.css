@@ -15,6 +15,13 @@ body{
 	background: url(../images/stars.jpg);
 
 }
+
+#info{
+	width: 70px;
+	float: left;
+	position: relative;
+}
+
 .menu{
 		width: 30%;
 		margin: auto;

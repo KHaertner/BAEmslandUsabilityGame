@@ -84,6 +84,7 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		number = 0;								// setzt die Anzahl der erreichten Hindernisse zurück
 		$('#game').stop();
 		$('#highscore').remove();
+		$('#info').hide();
 		$('#game').animate({'background-position':'0px'},1);
 		$('#cursor').css({'display': 'block'});
 		$('.menu').css({'display': 'none'});
@@ -93,6 +94,7 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 	}else if(state == "menu"){
 		clearInterval(gameinterval);
 		$('#highscore').remove();
+		$('#info').show();
 		$('#cursor').css({'display': 'none'});
 		$('.menu').css({'display': 'block'});
 		$('.highscore').css({'display': 'block'});
@@ -101,6 +103,12 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		$('#cursor').css({'display': 'none'});
 		$('.highscore').css({'display': 'block'});
 		$('.menu').append("<iframe src='./hs.html' id='highscore' style='background:white; width:100%'>");
+	}else if(state == "info"){
+		$('#highscore').remove();
+		$('.menu').remove();
+		$('#cursor').css({'display': 'none'});
+		$('#tutorial').show();
+		$('#info').hide();
 	};
 }
 
