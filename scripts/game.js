@@ -87,26 +87,25 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		$('#info').hide();
 		$('#game').animate({'background-position':'0px'},1);
 		$('#cursor').css({'display': 'block'});
-		$('.menu').css({'display': 'none'});
-		$('.highscore').css({'display': 'none'});				
+		$('.menu').fadeOut();
+		$('.highscore').fadeOut();				
 		var bgAnimate = $('#game').animate({'background-position':'-=1000px'},1*60*1000, 'linear');
 		timer();
 	}else if(state == "menu"){
-		clearInterval(gameinterval);
 		$('#highscore').remove();
-		$('#info').show();
+		$('#backbutton').fadeOut();
+		$('#info').fadeIn();
 		$('#cursor').css({'display': 'none'});
-		$('.menu').css({'display': 'block'});
-		$('.highscore').css({'display': 'block'});
+		$('.menu').fadeIn();
+		$('.highscore').fadeIn();
 	}else if(state == "highscore"){
 		$('#highscore').remove();
 		$('#cursor').css({'display': 'none'});
-		$('.highscore').css({'display': 'block'});
+		$('.highscore').fadeIn();
 		$('.menu').append("<iframe src='./hs.html' id='highscore' style='background:white; width:100%'>");
 	}else if(state == "info"){
-		$('#highscore').remove();
-		$('.menu').remove();
-		$('#cursor').css({'display': 'none'});
+		$('.menu').fadeOut();
+		$('#backbutton').fadeIn();
 		$('#tutorial').show();
 		$('#info').hide();
 	};
@@ -116,6 +115,8 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 	if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
 		navigator.vibrate(1000, 500, 750, 300, 500);	//first value vibration duration, second value pause duration
 	}
+	clearInterval(gameinterval);
+	
 	var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 	if (energyMode==false || reasonid == 2) {
 		
