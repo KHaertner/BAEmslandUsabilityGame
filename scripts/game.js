@@ -114,12 +114,12 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 	if (window.navigator && window.navigator.vibrate){ 	//checks if the device supports vibration
 		navigator.vibrate(1000, 500, 750, 300, 500);	//first value vibration duration, second value pause duration
 	}
-	clearInterval(gameinterval);
 	
 	var reason = {1:"Du bist kollidiert", 2:"Du hast die Map verlassen", 3:"Anti NoHoverCheat"};
 	if (energyMode==false || reasonid == 2) {
 		
 		//aktualisiert die Statistik your_points
+		clearInterval(gameinterval);
 		$('#reason').html(reason[reasonid]);
 		$('#range').html(number);
 		$('#coins').html(coin);
