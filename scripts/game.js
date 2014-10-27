@@ -14,10 +14,10 @@ var destroyed = 0;
 
 
 //canvas
-var mainCanvas = document.getElementById("myCanvas");
+var circles = new Array();
+var mainCanvas = $("#gameField");
 var mainContext = mainCanvas.getContext('2d');
 
-var circles = new Array();
  
 var requestAnimationFrame = window.requestAnimationFrame || 
                             window.mozRequestAnimationFrame ||
@@ -30,7 +30,7 @@ function Circle(radius, speed, width, xPos, yPos) {
     this.width = width;
     this.xPos = xPos;
     this.yPos = yPos;
-    this.opacity = .05 + Math.random() * .5;
+    this.color = 'green';
 
     this.counter = 0;
 
@@ -77,7 +77,7 @@ function drawCircles() {
 drawCircles();
 
 function draw() {
-    mainContext.clearRect(0, 0, 500, 500);
+    //mainContext.clearRect(0, 0, 500, 500);
 
     for (var i = 0; i < circles.length; i++) {
         var myCircle = circles[i];
@@ -122,7 +122,8 @@ function inGame(){ 								//bewegt und spawnt die Hindernisse
 		energyLeft -= 1;
 	};
 	createBox(number); 							//spawn
-	moveBox(number);							//bewegung
+	moveBox(number);
+								//bewegung
 
 	if (maxTime > 2000) {maxTime = maxTime-12;}; //Die Geschwindigkeit der Hindernisse wird erhöht
 	if (minTime > 1000) {minTime = minTime-6;};
@@ -154,11 +155,13 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 	state = gameState;
 	if (state == "play") {
 		number = 0;								// setzt die Anzahl der erreichten Hindernisse zurück
+		var circles = new Array();
 		$('#game').stop();
 		$('#highscore').remove();
 		$('#game').animate({'background-position':'0px'},1);
 		$('#cursor').css({'display': 'block'});
 		$('.menu').css({'display': 'none'});
+		$('.gameField').css({'display': 'block'});
 		$('.highscore').css({'display': 'none'});				
 		var bgAnimate = $('#game').animate({'background-position':'-=1000px'},1*60*1000, 'linear');
 		timer();
@@ -168,11 +171,13 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		$('#cursor').css({'display': 'none'});
 		$('.menu').css({'display': 'block'});
 		$('.highscore').css({'display': 'block'});
+		$('.gameField').css({'display': 'none'});
 	}else if(state == "highscore"){
 		$('#highscore').remove();
 		$('#cursor').css({'display': 'none'});
 		$('.highscore').css({'display': 'block'});
 		$('.menu').append("<iframe src='./hs.html' id='highscore' style='background:white; width:100%'>");
+		$('.gameField').css({'display': 'none'});
 	};
 }
 
@@ -239,8 +244,10 @@ function createBox(id){							//Hindernis berechnen und als container anzeigen
 	var reason = 1;
 	if (powerUp == 5) {
 		box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='getPowerUp("+id+"); energyOn(); '></div>");
+		$(document.body).append(box);
 	}else if(powerUp<5){
 		box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/coin.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='coins("+id+");'></div>");
+		$(document.body).append(box);
 	}else if(ingo == false) {
 
 		var randomX = 1900;
@@ -251,12 +258,18 @@ function createBox(id){							//Hindernis berechnen und als container anzeigen
         var circle = new Circle(100, speed, size, randomX, randomY);
         circles.push(circle);
 
+        $('#gameField').drawArc(circle);
+
+        if (circles.length < 15) {
+        	circles.remove(1);
+        };
+
 		//box = $("<canvas id=box"+id+" class='box bad' style='width:"+cometheight+"px; height:"+cometheight+"px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></canvas>");
 	}else{
 		box = $("<div id=box"+id+" class='box bad' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
+		$(document.body).append(box);
 	};
 	
-	$(document.body).append(box);
 	
 }
 
