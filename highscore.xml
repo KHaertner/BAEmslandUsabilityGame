@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="highscore.xsl"?>
 <!DOCTYPE highscore SYSTEM "highscore.dtd">
@@ -107,3 +108,9 @@
 		</score>
 	</player>
 </highscore>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="highscore.xsl"?>
+<!DOCTYPE highscore SYSTEM "highscore.dtd">
+<highscore><player><name>SCoooar</name><score>4</score></player><player><name>test</name><score>4</score></player></highscore>
+>>>>>>> 18d4b7d8f89b493e094a8c9891b4b6580185a630
