@@ -170,13 +170,7 @@ function createBox(id){							//Hindernis berechnen und als container anzeigen
 	}else if(powerUp<5){
 		box = $("<div id=box"+id+" class='box' style='width: 20px; height: 20px; cursor:none; background: url(./images/coin.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='coins("+id+");'></div>");
 	}else if(ingo == false) {
-		$("canvas").drawArc({
-		  draggable: true,
-		  fillStyle: "green",
-		  x: cometheight, y: cometheight,
-		  radius: 50
-		});
-		// box = $("<canvas id=box"+id+" class='box bad' style='width:"+cometheight+"px; height:"+cometheight+"px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></canvas>");
+		box = $("<canvas id=box"+id+" class='box bad' style='width:"+cometheight+"px; height:"+cometheight+"px; cursor:none; background: url(./images/comet_big.png); position: fixed; border-radius: 50px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></canvas>");
 	}else{
 		box = $("<div id=box"+id+" class='box bad' style='width: 20px; height: 20px; cursor:none; background: url(./images/ingo.png); position: fixed; border-radius: 10px; left: "+width+"px; top: "+y+"px' onmouseover='lose("+id+", "+reason+");'></div>");
 	};
