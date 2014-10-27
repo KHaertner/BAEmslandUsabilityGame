@@ -44,48 +44,48 @@
 	<!-- Frame -->
 	<div data-role="page">
 		
-		<div data-role="main" id="game">
+	<div data-role="main" id="game">
 
-			<!-- Menüoberfläche -->
-			<div data-role="ui-content" class="menu">
-				<button onclick="setState('play');">Start</button>
-				<button onclick="setState('highscore');">Highscore</button>
-				
-				<!-- Darstellung des Highscore -->
-				<div id="your_points" style="display:none;">
-					
-					<p id='reason' style="text-align:center;"></p>	
-					
-					<table data-role="table" class="ui-responsive">
-						<thead>
-							<th></th>
-							<th></th>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Hindernisse</td>
-								<td id='range'></td>
-							</tr>
-							<tr>
-								<td>Münzen(3x)</td>
-								<td id='coins'></td>
-							</tr>
-							<tr>
-								<td>zerstörte Kometen(2x)</td>
-								<td id='destroyed'></td>
-							</tr>
-							<tr>
-								<td>Gesamte Punktzahl</td>
-								<td id='totalscore'></td>
-							</tr>
-						</tbody>
-					</table>
-
-
-				<!-- Eingabeformular für den Highscore -->
-					<input type="text" id="scoreform" name="playername" placeholder="Dein Name..."><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
-				</div>
+		<!-- Menüoberfläche -->
+		<div data-role="ui-content" class="menu">
+			<button onclick="setState('play');">Start</button>
+			<button onclick="setState('highscore');">Highscore</button>
 			
+			<!-- Darstellung des Highscore -->
+			<div id="your_points" style="display:none;">
+				
+				<p id='reason' style="text-align:center;"></p>	
+				
+				<table data-role="table" class="ui-responsive">
+					<thead>
+						<th></th>
+						<th></th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Hindernisse</td>
+							<td id='range'></td>
+						</tr>
+						<tr>
+							<td>Münzen(3x)</td>
+							<td id='coins'></td>
+						</tr>
+						<tr>
+							<td>zerstörte Kometen(2x)</td>
+							<td id='destroyed'></td>
+						</tr>
+						<tr>
+							<td>Gesamte Punktzahl</td>
+							<td id='totalscore'></td>
+						</tr>
+					</tbody>
+				</table>
+
+
+			<!-- Eingabeformular für den Highscore -->
+				<input type="text" id="scoreform" name="playername" placeholder="Dein Name..."><button id="submit" type="submit" onclick="submitScore()">Score abschicken</button>
+			</div>
+		
 			<!-- Debug Statistiken -->
 			<div class="stats" style="z-index:110; position:fixed; color: white; display: none;">
 				Energy:			<input type='text' id='energy' style="width:30px">
@@ -100,9 +100,14 @@
 			</div>			
 		</div>	
 	</div>
-	<img id="info" src="images/info.png" onclick="setState('info');">		
+	
+	<div id="controls">
+		<img id="info" src="images/info.png" onclick="setState('info');">	
+	</div>
 	<div id="tutorial" style="display: none;">
-		<button onclick="setState('menu');">Zurück</button>
+		<button id="backbutton" onclick="setState('menu');">Zurück</button>
+		<h1>Ziel: Weiche den Asteoriden aus und überlebe so lange wie möglich.</h1>
+		<h1>Sammle dabei so viele Punkte wie möglich.</h1>
 	</div>
 			<!-- <div class="border" id="top" style="height: 8px;background: black;position: fixed;z-index:  10;width: 100%;top: 0px; left: 0px;"></div>
 			<div class="border" id="left" style="height: 100%;background: #000;position: fixed;z-index:  10;width: 10px;top: 0px;left: 0px;"></div>

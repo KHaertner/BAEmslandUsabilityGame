@@ -22,11 +22,12 @@ body{
 	position: relative;
 }
 
-.menu{
+.menu, #tutorial{
 		width: 30%;
 		margin: auto;
 		margin-top: 5%;
 		color: white;
+		
 }
 
 tr {
