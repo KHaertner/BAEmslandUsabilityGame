@@ -29,6 +29,12 @@ body{
 		color: white;	
 }
 
+#controls {
+	position: fixed;
+	top: 0px;
+	left; 0px;
+}
+
 tr {
     border-bottom: 1px solid white;
 }

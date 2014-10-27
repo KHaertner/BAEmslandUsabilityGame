@@ -93,7 +93,7 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		timer();
 	}else if(state == "menu"){
 		$('#highscore').remove();
-		$('#backbutton').fadeOut();
+		$('#tutorial').hide();
 		$('#info').fadeIn();
 		$('#cursor').css({'display': 'none'});
 		$('.menu').fadeIn();
@@ -104,8 +104,7 @@ function setState(gameState){ 					//Zeigt die Oberfläche Modusbedingt an
 		$('.highscore').fadeIn();
 		$('.menu').append("<iframe src='./hs.html' id='highscore' style='background:white; width:100%'>");
 	}else if(state == "info"){
-		$('.menu').fadeOut();
-		$('#backbutton').fadeIn();
+		$('.menu').hide();
 		$('#tutorial').show();
 		$('#info').hide();
 	};
